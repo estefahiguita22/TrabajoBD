@@ -103,3 +103,7 @@ when invalid then
 when no_data_found then
     dbms_output.put_line('No se encontraron registros con el id ingresado');
 end;
+
+--Ejecución procedimiento Programar_mantenimiento
+EXEC Programar_mantenimiento(&id);
+
