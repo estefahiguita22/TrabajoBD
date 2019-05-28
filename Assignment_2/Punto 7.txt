@@ -1,0 +1,30 @@
+/*7. Crear un procedimiento llamado "calcular_peso_volumetrico", dicho procedimiento deberá leer todos los registros de la tabla 
+de envíos y llenar el campo "peso volumen", para esto aplicará la fórmula expuesta en el taller anterior: se obtiene 
+multiplicando el ancho x el alto x el largo y luego se multiplica por 400 que es el factor de equivalencia por cada metro cúbico)*/
+
+--select * from guia
+--update guia set peso_volumen=0 where id = 101000;
+--update guia set peso_volumen=0 where id = 101001;
+--update guia set peso_volumen=0 where id = 101002;
+
+create or replace procedure calcular_peso_volumetrico
+is
+idguia guia.id%type;
+ancho guia.ancho%type;
+largo guia.largo%type;
+alto guia.alto%type;
+pesovolumen guia.peso_volumen%type;
+    CURSOR calculo_volumen is 
+        select g.id, g.ancho, g.largo, g.alto from guia g;
+begin
+    open calculo_volumen;
+        loop
+            fetch calculo_volumen into idguia, ancho, largo, alto;
+            exit when calculo_volumen%notfound;
+            pesovolumen := (ancho*alto*largo)*400;
+            --dbms_output.put_line('EL id es ' || idguia || ' EL ancho es ' || ancho || ' El largo es ' || largo || ' El alto es ' || alto); 
+            --dbms_output.put_line('EL resultado es ' || pesovolumen );
+            update guia set peso_volumen=pesovolumen where id = idguia;
+        end loop;
+    close calculo_volumen;
+end;
