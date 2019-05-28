@@ -8,8 +8,8 @@ El mantenimiento debe hacerse en el centro de recibo que está asignado para ese
 Ejemplo: Un vehículo tiene 14900 km y se invoca el procedimiento, 
 deberá crear y programar el siguiente mantenimiento que es de 15.000km con todos sus items en estado pendiente.*/
 
---create or replace procedure Programar_mantenimiento as
-declare
+create or replace procedure Programar_mantenimiento (id_vehiculo vehiculos.id%type) 
+is
 total_registros integer;
 idvehiculo vehiculos.id%type;
 kilometraje vehiculos.kilometraje%type;
@@ -26,7 +26,8 @@ plan6 number := 100000;
 comparacion number := 0;
 fecha date;
 begin
-idvehiculo :=&Valor_1;
+idvehiculo := id_vehiculo;
+--idvehiculo :=&Valor_1;
 if idvehiculo <= 0 then
     raise invalid;
 end if; 
