@@ -1,0 +1,104 @@
+/*3. Crear un procedimiento almacenado llamado "Programar_mantenimiento" el cuál debe recibir el id de un vehículo. 
+El procedimiento deberá calcular cuántos kilómetros faltan para el próximo mantenimiento, 
+si faltan menos de 200 kilómetros deberá programar el mantenimiento con fecha prevista de mantenimiento 
+2 dias después de la fecha en la cual se invoque el procedimiento el mantenimiento y 
+debera tener sus respectivos items con estado pendiente. 
+El procedimiento deberá tener una excepción si el id que se pase como parámetro es negativo o igual a cero.
+El mantenimiento debe hacerse en el centro de recibo que está asignado para ese vehículo y deberá asignar un mecánico del mismo lugar.
+Ejemplo: Un vehículo tiene 14900 km y se invoca el procedimiento, 
+deberá crear y programar el siguiente mantenimiento que es de 15.000km con todos sus items en estado pendiente.*/
+
+--create or replace procedure Programar_mantenimiento as
+declare
+total_registros integer;
+idvehiculo vehiculos.id%type;
+kilometraje vehiculos.kilometraje%type;
+idcentror vehiculos.id_centror%type;
+empleado empleados.id%type;
+id empleados.id%type;
+invalid exception;
+plan1 number := 5000;
+plan2 number := 10000;
+plan3 number := 20000;
+plan4 number := 40000;
+plan5 number := 50000;
+plan6 number := 100000;
+comparacion number := 0;
+fecha date;
+begin
+idvehiculo :=&Valor_1;
+if idvehiculo <= 0 then
+    raise invalid;
+end if; 
+    select v.id, v.kilometraje, v.id_centror into idvehiculo, kilometraje, idcentror from vehiculos v where v.id = idvehiculo;
+        select id into empleado from   
+            (select e.id from empleados e
+                where e.id_centror = idcentror and e.cargo='Mecánico'
+                order by dbms_random.value)  
+        where rownum = 1; 
+           case true
+                when kilometraje < plan1 then
+                    comparacion := plan1 - kilometraje;
+                    if comparacion <= 200 then
+                        fecha := SYSDATE + 2;
+                        insert into programacion_mtto values (PROG_MTTO_SEQ.NEXTVAL,idvehiculo,to_date (fecha, 'DD/MM/YYYY'),
+                        empleado,100050,'Pendiente','Por atender');
+                        dbms_output.put_line('Vehiculo Programado Con Éxito');  
+                            else dbms_output.put_line('Aún no se cumple el kilometraje mínimo para programar mantenimiento al vehiculo');  
+                        end if;
+                when kilometraje < plan2 then
+                    comparacion := plan2 - kilometraje;
+                    if comparacion <= 200 then
+                        fecha := SYSDATE + 2;
+                        insert into programacion_mtto values (PROG_MTTO_SEQ.NEXTVAL,idvehiculo,to_date (fecha, 'DD/MM/YYYY'),
+                        empleado,100051,'Pendiente','Por atender');
+                        dbms_output.put_line('Vehiculo Programado Con Éxito');
+                            else dbms_output.put_line('Aún no se cumple el kilometraje mínimo para programar mantenimiento al vehiculo');  
+                    end if;
+                when kilometraje < plan3 then
+                    comparacion := plan3 - kilometraje;
+                    if comparacion <= 200 then
+                        fecha := SYSDATE + 2;
+                        insert into programacion_mtto values (PROG_MTTO_SEQ.NEXTVAL,idvehiculo,to_date (fecha, 'DD/MM/YYYY'),
+                        empleado,100052,'Pendiente','Por atender');
+                        dbms_output.put_line('Vehiculo Programado Con Éxito');
+                            else dbms_output.put_line('Aún no se cumple el kilometraje mínimo para programar mantenimiento al vehiculo');  
+                    end if;
+                when kilometraje < plan4 then
+                    comparacion := plan4 - kilometraje;
+                    if comparacion <= 200 then
+                        fecha := SYSDATE + 2;
+                        insert into programacion_mtto values (PROG_MTTO_SEQ.NEXTVAL,idvehiculo,to_date (fecha, 'DD/MM/YYYY'),
+                        empleado,100053,'Pendiente','Por atender');
+                        dbms_output.put_line('Vehiculo Programado Con Éxito');
+                            else dbms_output.put_line('Aún no se cumple el kilometraje mínimo para programar mantenimiento al vehiculo');  
+                    end if;
+                when kilometraje < plan5 then
+                    comparacion := plan5 - kilometraje;
+                    if comparacion <= 200 then
+                        fecha := SYSDATE + 2;
+                        insert into programacion_mtto values (PROG_MTTO_SEQ.NEXTVAL,idvehiculo,to_date (fecha, 'DD/MM/YYYY'),
+                        empleado,100054,'Pendiente','Por atender');
+                        dbms_output.put_line('Vehiculo Programado Con Éxito');
+                            else dbms_output.put_line('Aún no se cumple el kilometraje mínimo para programar mantenimiento al vehiculo');  
+                    end if;
+                 when kilometraje < plan6 then
+                    comparacion := plan6 - kilometraje;
+                    if comparacion <= 200 then
+                        fecha := SYSDATE + 2;
+                        insert into programacion_mtto values (PROG_MTTO_SEQ.NEXTVAL,idvehiculo,to_date (fecha, 'DD/MM/YYYY'),
+                        empleado,100055,'Pendiente','Por atender');
+                        dbms_output.put_line('Vehiculo Programado Con Éxito');
+                            else dbms_output.put_line('Aún no se cumple el kilometraje mínimo para programar mantenimiento al vehiculo');  
+                    end if;
+                else dbms_output.put_line('El kilometraje no ha sido asignado por el taller, consulte con el jefe de taller');  
+            end case;
+    total_registros := sql%ROWCOUNT;
+    dbms_output.put_line('El numero de registros es: ' || total_registros);
+    --dbms_output.put_line('El vehiculo : ' || idvehiculo || ' Tiene un total de ' || kilometraje || ' Kilometros' || empleado);
+    exception
+when invalid then
+    dbms_output.put_line('El valor ingresado debe ser mayor a 0');
+when no_data_found then
+    dbms_output.put_line('No se encontraron registros con el id ingresado');
+end;
