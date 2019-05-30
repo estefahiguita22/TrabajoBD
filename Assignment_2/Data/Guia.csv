@@ -1,4 +1,0 @@
-id_guia;pesoreal;ancho ;largo;alto;pesovolumen;cedula_nit_remi;cedula_nit_desti;fecha desp;hora despacho;fecha entrega;hora entrega;obs;ciudad orige;ciudad destin;cod postal orig;cod postal desti;unidades;flete fijo;flete variable;otros valores;valor servicio;estado;tiposervicio
-101000;20;30;30;30;25;1039452085;1039452158;28/04/2019;10:00:00;29/04/2019;11:00:00;sin novedad;5001;17001;50032;170003;3;2000;2500;4000;10000;En_Terminal_Origen;Mercancia
-101001;10;40;12;30;10;1039452138;1039452198;29/04/2019;15:00:00;30/04/2019;12:00:00;sin novedad;17001;5001;170003;50032;4;3000;3000;5000;1000;En_Transporte;Carga
-101002;15;23;10;30;5;1039452088;1039452091;30/04/2019;16:00:00;2/05/2019;13:00:00;sin novedad;5001;5001;50032;50032;5;4000;3500;6000;1000;En_Terminal_Origen;Firma_Documentos
